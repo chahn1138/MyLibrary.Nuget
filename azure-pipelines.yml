@@ -2,13 +2,13 @@ trigger:
 - master
 
 pool:
-  vmImage: 'ubuntu-16.04'
-
+  vmImage: 'ubuntu-16.04
+  
 stages:
 - stage: Build_Stage
-  displayName: 
+  displayName:
   jobs:
-  - job: BuildNuget
+  - job:BuildNuget
     displayName: Build Nuget packages
     variables:
       BuildConfiguration: release
@@ -31,10 +31,10 @@ stages:
         command: 'pack'
         packagesToPack: '**/*.csproj'
         versioningScheme: 'off'
-
+    
     - task: DotNetCoreCLI@2
       inputs:
         command: 'push'
         packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
         nuGetFeedType: 'internal'
-        publishVstsFeed: 'f50482f5-11a3-4eea-9ab0-2b4c997bd0e2'
+        publishVstsFeed: '786f9a64-f678-4591-8f1b-963bd9993e8f/6cf97f4e-5ba6-4f7c-bd6a-35ec0fb1562d'
