@@ -1,41 +1,92 @@
---- 
-pool: 
-  vmImage: ubuntu-16.04
-stages: 
-  - 
-    displayName: ~
-    jobs: 
-      - 
-        displayName: "Build Nuget packages"
-        job: BuildNuget
-        steps: 
-          - 
-            inputs: 
-              command: restore
-              feedsToUse: select
-              projects: "**/*.csproj"
-            task: DotNetCoreCLI@2
-          - 
-            inputs: 
-              arguments: "--configuration $(BuildConfiguration)"
-              command: build
-              projects: "**/*.csproj"
-            task: DotNetCoreCLI@2
-          - 
-            inputs: 
-              command: pack
-              packagesToPack: "**/*.csproj"
-              versioningScheme: "off"
-            task: DotNetCoreCLI@2
-          - 
-            inputs: 
-              command: push
-              nuGetFeedType: internal
-              packagesToPush: $(Build.ArtifactStagingDirectory)/*.nupkg
-              publishVstsFeed: f50482f5-11a3-4eea-9ab0-2b4c997bd0e2
-            task: DotNetCoreCLI@2
-        variables: 
-          BuildConfiguration: release
-    stage: Build_Stage
-trigger: 
-  - master
+---
+!!map {
+  ? !!str "pool"
+  : !!map {
+    ? !!str "vmImage"
+    : !!str "ubuntu-16.04",
+  },
+  ? !!str "stages"
+  : !!seq [
+    !!map {
+      ? !!str "displayName"
+      : !!null "null",
+      ? !!str "jobs"
+      : !!seq [
+        !!map {
+          ? !!str "displayName"
+          : !!str "Build Nuget packages",
+          ? !!str "job"
+          : !!str "BuildNuget",
+          ? !!str "steps"
+          : !!seq [
+            !!map {
+              ? !!str "inputs"
+              : !!map {
+                ? !!str "command"
+                : !!str "restore",
+                ? !!str "feedsToUse"
+                : !!str "select",
+                ? !!str "projects"
+                : !!str "**/*.csproj",
+              },
+              ? !!str "task"
+              : !!str "DotNetCoreCLI@2",
+            },
+            !!map {
+              ? !!str "inputs"
+              : !!map {
+                ? !!str "arguments"
+                : !!str "--configuration $(BuildConfiguration)",
+                ? !!str "command"
+                : !!str "build",
+                ? !!str "projects"
+                : !!str "**/*.csproj",
+              },
+              ? !!str "task"
+              : !!str "DotNetCoreCLI@2",
+            },
+            !!map {
+              ? !!str "inputs"
+              : !!map {
+                ? !!str "command"
+                : !!str "pack",
+                ? !!str "packagesToPack"
+                : !!str "**/*.csproj",
+                ? !!str "versioningScheme"
+                : !!str "off",
+              },
+              ? !!str "task"
+              : !!str "DotNetCoreCLI@2",
+            },
+            !!map {
+              ? !!str "inputs"
+              : !!map {
+                ? !!str "command"
+                : !!str "push",
+                ? !!str "nuGetFeedType"
+                : !!str "internal",
+                ? !!str "packagesToPush"
+                : !!str "$(Build.ArtifactStagingDirectory)/*.nupkg",
+                ? !!str "publishVstsFeed"
+                : !!str "f50482f5-11a3-4eea-9ab0-2b4c997bd0e2",
+              },
+              ? !!str "task"
+              : !!str "DotNetCoreCLI@2",
+            },
+          ],
+          ? !!str "variables"
+          : !!map {
+            ? !!str "BuildConfiguration"
+            : !!str "release",
+          },
+        },
+      ],
+      ? !!str "stage"
+      : !!str "Build_Stage",
+    },
+  ],
+  ? !!str "trigger"
+  : !!seq [
+    !!str "master",
+  ],
+}
