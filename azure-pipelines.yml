@@ -1,40 +1,41 @@
-trigger:
-- master
-
-pool:
-  vmImage: 'ubuntu-16.04
-  
-stages:
-- stage: Build_Stage
-  displayName:
-  jobs:
-  - job:BuildNuget
-    displayName: Build Nuget packages Please
-    variables:
-      BuildConfiguration: release
-    steps:
-
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'restore'
-        projects: '**/*.csproj'
-        feedsToUse: 'select'
-
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'build'
-        projects: '**/*.csproj'
-        arguments: '--configuration $(BuildConfiguration)'
-
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'pack'
-        packagesToPack: '**/*.csproj'
-        versioningScheme: 'off'
-    
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'push'
-        packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
-        nuGetFeedType: 'internal'
-        publishVstsFeed: '786f9a64-f678-4591-8f1b-963bd9993e8f/6cf97f4e-5ba6-4f7c-bd6a-35ec0fb1562d'
+--- 
+pool: 
+  vmImage: ubuntu-16.04
+stages: 
+  - 
+    displayName: ~
+    jobs: 
+      - 
+        displayName: "Build Nuget packages"
+        job: BuildNuget
+        steps: 
+          - 
+            inputs: 
+              command: restore
+              feedsToUse: select
+              projects: "**/*.csproj"
+            task: DotNetCoreCLI@2
+          - 
+            inputs: 
+              arguments: "--configuration $(BuildConfiguration)"
+              command: build
+              projects: "**/*.csproj"
+            task: DotNetCoreCLI@2
+          - 
+            inputs: 
+              command: pack
+              packagesToPack: "**/*.csproj"
+              versioningScheme: "off"
+            task: DotNetCoreCLI@2
+          - 
+            inputs: 
+              command: push
+              nuGetFeedType: internal
+              packagesToPush: $(Build.ArtifactStagingDirectory)/*.nupkg
+              publishVstsFeed: f50482f5-11a3-4eea-9ab0-2b4c997bd0e2
+            task: DotNetCoreCLI@2
+        variables: 
+          BuildConfiguration: release
+    stage: Build_Stage
+trigger: 
+  - master
