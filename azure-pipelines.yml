@@ -9,7 +9,7 @@ stages:
   displayName:
   jobs:
   - job:BuildNuget
-    displayName: Build Nuget packages
+    displayName: Build Nuget packages Please
     variables:
       BuildConfiguration: release
     steps:
